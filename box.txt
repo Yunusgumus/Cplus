@@ -323,7 +323,7 @@ void Space::fillRandomBox(int a, int b,Coord cord)  {
 				double centerOfMassX = 0;
 				double centerOfMassY = 0;
 
-				for (i = 0; i < n; i++)		//olusturulan kutulari 1.satirinin  x ekseni dolana kadar yerleþtiriyor
+				for (i = 0; i < n; i++)		//olusturulan kutulari 1.satirinin  x ekseni dolana kadar yerleÃ¾tiriyor
 				{
 
 					h = kutu[i].getH();
@@ -353,7 +353,7 @@ void Space::fillRandomBox(int a, int b,Coord cord)  {
 				//cout << " s1y:" << s1y << endl;
 				//cout << "i:" << i << endl;
 				//cout << "w:" << w << endl;
-				double topYerKutu = i;			//ilk satirda yerleþtirilen kutularin adedini tutuyor
+				double topYerKutu = i;			//ilk satirda yerleÃ¾tirilen kutularin adedini tutuyor
 				h = a;
 				w = 0;
 				basX = w;
@@ -363,7 +363,7 @@ void Space::fillRandomBox(int a, int b,Coord cord)  {
 				if (topYerKutu != n) {
 
 					//cout << "yunus baba" << endl;
-					if (tut != 0) {					//olusturulan kutularin 2. satirinin x ekseni dolana akdar yerleþtiriyor
+					if (tut != 0) {					//olusturulan kutularin 2. satirinin x ekseni dolana akdar yerleÃ¾tiriyor
 
 						for (i; i < n; i++) {
 							h += kutu[i].getH();
@@ -695,7 +695,7 @@ void Space::fillRandomBox(int a, int b,Coord cord)  {
 			cout << "uzayin boyutu kutunun boyutundan kucuk olamaz" << endl;
 		}
 	}
-	else							//yogunluk 1 den farkli oldugu zaman heseplamalar yapýlacak
+	else							//yogunluk 1 den farkli oldugu zaman heseplamalar yapÃ½lacak
 	{
 		Box kutu[80];
 		double uzayAlani = cord.getX() * cord.getY();
@@ -747,7 +747,7 @@ void Space::fillRandomBox(int a, int b,Coord cord)  {
 				double centerOfMassX = 0;
 				double centerOfMassY = 0;
 
-				for (i = 0; i < n; i++)		//olusturulan kutulari 1.satirinin  x ekseni dolana kadar yerleþtiriyor
+				for (i = 0; i < n; i++)		//olusturulan kutulari 1.satirinin  x ekseni dolana kadar yerleÃ¾tiriyor
 				{
 
 					h = kutu[i].getH();
@@ -777,7 +777,7 @@ void Space::fillRandomBox(int a, int b,Coord cord)  {
 				//cout << " s1y:" << s1y << endl;
 				//cout << "i:" << i << endl;
 				//cout << "w:" << w << endl;
-				double topYerKutu = i;			//ilk satirda yerleþtirilen kutularin adedini tutuyor
+				double topYerKutu = i;			//ilk satirda yerleÃ¾tirilen kutularin adedini tutuyor
 				h = a;
 				w = 0;
 				basX = w;
@@ -787,7 +787,7 @@ void Space::fillRandomBox(int a, int b,Coord cord)  {
 				if (topYerKutu != n) {
 
 					//cout << "yunus baba" << endl;
-					if (tut != 0) {					//olusturulan kutularin 2. satirinin x ekseni dolana akdar yerleþtiriyor
+					if (tut != 0) {					//olusturulan kutularin 2. satirinin x ekseni dolana akdar yerleÃ¾tiriyor
 
 						for (i; i < n; i++) {
 							h += kutu[i].getH();
