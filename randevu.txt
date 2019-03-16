@@ -1,0 +1,1185 @@
+ORTAK.H
+
+#include "pch.h"
+#include <iostream>
+#pragma once
+
+using namespace std;
+
+class Ortak {
+
+public:
+
+	string ad;
+	string soyad;
+	string eposta;
+	string ran_tarihi;
+	string ran_sahibi;
+	int ran_bas_saati;
+	int ran_bas_dak;
+	int ran_bit_dak;
+	int ran_bit_saati;
+	long long int telno;
+
+
+};
+
+
+
+OGRENCÝ.H
+
+#include "pch.h"
+#include <iostream>
+#include"Ortak.h"
+#pragma once
+
+using namespace std;
+
+class Ogrenci :public Ortak {
+
+public:	
+	Ortak o_ran[20];
+	string bolum;
+	int kayit_yili;
+	void setonumara(int ogrencino);
+	int getonumara();
+	
+private:
+	int ogrencino;
+
+
+};
+
+
+OGRENCÝ.CPP
+
+#include "pch.h"
+#include<iostream>
+#include"Ogrenci.h"
+
+using namespace std;
+
+void Ogrenci::setonumara(int ogrencino)
+{
+	this->ogrencino = ogrencino;
+}
+
+int Ogrenci::getonumara() {
+	return ogrencino;
+}
+
+
+AKADEMÝSYE.H
+
+#include "pch.h"
+#include <iostream>
+#include "Ortak.h"
+#pragma once
+
+using namespace std;
+
+class Akademisyen: public Ortak {
+
+public:
+	string anadali;
+	string unvan;
+	Ortak a_ran[20];
+	void setsicilno(int sicilno);
+	int getsicilno();
+	void print_ran();
+private:
+	int sicilno;
+	
+};
+
+AKADEMÝSYEN.CPP
+
+#include "pch.h"
+#include <iostream>
+#include <string>
+#include"Akademisyen.h"
+
+using namespace std;
+
+void Akademisyen::setsicilno(int sicilno) {
+	this->sicilno = sicilno;
+}
+
+int Akademisyen::getsicilno() {
+	return sicilno;
+}
+
+void Akademisyen::print_ran()
+{
+	cout << "akademisyen:" << ad << endl;
+	cout <<"randevu tarihi:"<< ran_tarihi << endl;
+	cout << "randevu baslangic ve bitis tarihi:" << ran_bas_saati << "." << ran_bas_dak << " " << ran_bit_saati << "." << ran_bit_dak << endl;
+}
+
+
+RANDEVU.H
+
+
+#include "pch.h"
+#include <iostream>
+#include"Ogrenci.h"
+#include"Ortak.h"
+#include"Akademisyen.h"
+#pragma once
+
+using namespace std;
+
+class Randevu {
+
+
+public:
+	string rgunu;
+	string rayi;
+	string ryili;
+	string bassaati;
+	string bitsaati;
+};
+
+
+RANDEVUSÝSTEMÝ.H
+
+
+#include"pch.h"
+#include <iostream>
+#include"Akademisyen.h"
+#include"Ogrenci.h"
+#include"Ortak.h"
+#include"Randevu.h"
+#pragma once
+
+using namespace std;
+
+class RandevuSistemi:public Randevu {
+
+public:
+
+	void ogrenci_ekle();
+	void ogrenci_sil();
+	void ogrenci_guncelle();
+	void akademisyen_ekle();
+	void akademisyenleri_atama();
+	void akademisyenleri_listele();
+	void akademisyen_sil();
+	void akademisyen_guncelle();
+	void ogrenci_ran_list();
+	void akad_ran_list();
+	void randevu_al();
+	void ogrencileri_atama();
+	void ogrencileri_listele();
+	void randevulari_atama();
+	void ogrenci_ran_atama();
+	void akademisyen_ran_atama();
+	void randevu_iptal_et();
+	
+
+
+private:
+	Ogrenci ogr[100];
+	Akademisyen akad[100];
+	Randevu ran[300];
+
+};
+
+
+RANDEVUSÝSTEMÝ.CPP
+
+
+#include "pch.h"
+#include "RandevuSistemi.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <stdlib.h>
+
+using namespace std;
+fstream dosya;
+fstream dosya2;
+fstream dosya3;
+fstream dosya4;
+fstream dosya5;
+fstream dosya6;
+int i,q,l = 0;
+
+
+void RandevuSistemi::ogrencileri_atama()
+{
+	dosya.open("ogrenci.txt",ios::in);
+	
+
+	while (!dosya.eof())
+	{
+		//cout << i << endl;
+		int a;
+		dosya >> a;
+		//cout << a << endl;
+		ogr[i].setonumara(a);
+		dosya >> ogr[i].ad;
+		dosya >> ogr[i].soyad;
+		dosya >> ogr[i].bolum;
+		dosya >> ogr[i].kayit_yili;
+		dosya >> ogr[i].eposta;
+		dosya >> ogr[i].telno;
+		i++;
+
+	}
+	//cout << i << endl;
+
+	dosya.close();
+
+}
+
+void RandevuSistemi::ogrencileri_listele()
+{
+	ogrencileri_atama();
+	//cout << "i:" << i << endl;
+	for(int j=0;j<(i);j++){
+
+		cout << ogr[j].getonumara()<<" " << ogr[j].ad<<" " << ogr[j].soyad<<" " << ogr[j].bolum <<" "<< ogr[j].kayit_yili<<" " << ogr[j].eposta<<" " << ogr[j].telno <<" "<< endl;
+		
+	}
+}
+
+
+
+
+void RandevuSistemi::ogrenci_ekle()
+{
+	dosya.open("ogrenci.txt", ios::app | ios::in);
+	string ad, soyad, eposta, bolum;
+	int ogrencino, kayit_yili;
+	long long int telno;
+	cout << endl << "ogrencinin ogrenci numarasini giriniz:";
+	cin >> ogrencino;
+	cout << "ogrencinin adini giriniz:";
+	cin >> ad;
+	cout << endl << "ogrencinin soyadini giriniz:";
+	cin >> soyad;
+	cout << endl << "ogrencinin bolumunu giriniz:";
+	cin >> bolum;
+	cout << endl << "ogrencinin kayit yilini giriniz:";
+	cin >> kayit_yili;
+	cout << endl << "ogrencinin e-postasini giriniz:";
+	cin >> eposta;
+	cout << endl << "ogrencinin telefon numarasini giriniz:";
+	cin >> telno;
+	dosya<< ogrencino << " " << ad << " " << soyad << " " << bolum << " " << kayit_yili << " " << eposta << " " << telno<<endl;
+	dosya.close();
+}
+
+void RandevuSistemi::ogrenci_sil() {
+	
+	ogrencileri_atama();
+	
+	int no1;
+	cout << "silinecek ogrencinin ogrenci numarasini giriniz:";
+	cin >> no1;
+	cout << "i:" << i << endl;
+	dosya.open("ogrenci.txt", ios::app | ios::in );
+	dosya2.open("ogecici.txt", ios::out);
+	int gecicino, gecicikayityili;
+	long long int gecicitelno;
+	string geciciad, gecicisad, gecicibolum, gecicieposta;
+	int deneme = 0;
+	int j = 0;
+	for (j; j < (i-1) ; j++)
+	{
+		
+
+		if (no1 != ogr[j].getonumara()) {
+
+			dosya2 << ogr[j].getonumara() << " " << ogr[j].ad << " " << ogr[j].soyad << " " << ogr[j].bolum << " " << ogr[j].kayit_yili << " " << ogr[j].eposta << " " << ogr[j].telno << " " << endl;
+
+		}
+		if (no1 == ogr[j].getonumara()) {
+			cout << "kayit bulundu" << endl;
+			deneme = 1;
+		}
+		
+	}
+	
+	dosya.close();
+	dosya2.close();
+	if (deneme==0)
+	{
+		
+		cout << "girilen numaraya ait ogrenci bulunamadi" << endl;
+	   
+	}
+	else
+	{
+		dosya.open("ogrenci.txt", ios::out);
+		dosya2.open("ogecici.txt", ios::app | ios::in);
+		int y = 0;
+		while (!dosya2.eof())
+		{
+			y++;
+			cout << "y:" << y << endl;
+			dosya2 >> gecicino;
+			dosya2 >> geciciad;
+			dosya2 >> gecicisad;
+			dosya2 >> gecicibolum;
+			dosya2 >> gecicikayityili;
+			dosya2 >> gecicieposta;
+			dosya2 >> gecicitelno;
+			cout << gecicino << geciciad << gecicisad << gecicibolum << gecicikayityili << gecicieposta << gecicitelno << endl;
+			if (y < j) {
+
+				dosya << gecicino << " " << geciciad << " " << gecicisad << " " << gecicibolum << " " << gecicikayityili << " " << gecicieposta << " " << gecicitelno << endl;
+
+
+			}
+			
+
+
+		}
+		dosya.close();
+		dosya2.close();
+		cout << "ogrenci silindi" << endl;
+	}
+}
+
+void RandevuSistemi::ogrenci_guncelle()
+{
+	ogrencileri_atama();
+	cout << "guncellemek istediginiz ogrencinin ogrenci nuamrasini giriniz:";
+	int gecicino;
+	cin >> gecicino;
+	cout << "i:" << i << endl;
+	int t = 0;
+	for (t; t < (i-1); t++) {
+
+		if (gecicino == ogr[t].getonumara()) {
+			string gad;
+			string gsoyad;
+			string gbolum;
+			int gkyili;
+			string geposta;
+			cout << "Kayit Bulundu" << endl;
+			cout << "Duzenlemek istediginiz bilgiyi seciniz:"<<endl;
+			cout << "1-Ad" << endl;
+			cout << "2-Soyad" << endl;
+			cout << "3-Bolum" << endl;
+			cout << "4-Kayit Yili" << endl;
+			cout << "5-E-posta" << endl;
+			cout << "6-Telefon Numarasi" << endl;
+			int n;
+			cin >> n;
+			switch(n)
+			{
+			case 1:
+				cout << "Ogrencinin yeni adini giriniz:";			
+				cin >> gad;
+				ogr[t].ad = gad;
+				dosya.open("ogrenci.txt");
+				for (int n = 0; n < (i - 1); n++) {
+					if (n == t) {
+						dosya << ogr[n].getonumara() << " " << gad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+					}
+					else
+					{
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+
+					}
+				}
+				dosya.close();
+				break;
+			case 2:
+				cout << "Ogrencinin yeni soyadini giriniz:";
+				cin >> gsoyad;
+				ogr[t].soyad = gsoyad;
+				dosya.open("ogrenci.txt");
+				for (int n = 0; n < (i - 1); n++) {
+					if (n == t) {
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << gsoyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+					}
+					else
+					{
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+
+					}
+				}
+				dosya.close();
+				break;
+			case 3:
+				cout << "Ogrencinin yeni bolumunu giriniz:";
+				cin >> gbolum;
+				ogr[t].bolum = gbolum;
+				dosya.open("ogrenci.txt");
+				for (int n = 0; n < (i - 1); n++) {
+					if (n == t) {
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << gbolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+					}
+					else
+					{
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+
+					}
+				}
+				dosya.close();
+				break;
+			case 4:
+				cout << "Ogrencinin yeni kayit yilini giriniz:";
+				cin >> gkyili;
+				ogr[t].kayit_yili = gkyili;
+				dosya.open("ogrenci.txt");
+				for (int n = 0; n < (i - 1); n++) {
+					if (n == t) {
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << gkyili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+					}
+					else
+					{
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+
+					}
+				}
+				dosya.close();
+				break;
+			case 5:
+				cout << "Ogrencinin yeni e-postasini giriniz:";
+				cin >> geposta;
+				ogr[t].eposta = geposta;
+				dosya.open("ogrenci.txt");
+				for (int n = 0; n < (i - 1); n++) {
+					if (n == t) {
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " <<geposta << " " << ogr[n].telno << endl;
+					}
+					else
+					{
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+
+					}
+				}
+				dosya.close();
+				break;
+			case 6:
+				cout << "Ogrencinin yeni telefon numarasini giriniz:";
+				long long int gtelno;
+				cin >> gtelno;
+				ogr[t].telno = gtelno;
+				dosya.open("ogrenci.txt");
+				for (int n = 0; n < (i - 1); n++) {
+					if (n == t) {
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << geposta << " " << gtelno << endl;
+					}
+					else
+					{
+						dosya << ogr[n].getonumara() << " " << ogr[n].ad << " " << ogr[n].soyad << " " << ogr[n].bolum << " " << ogr[n].kayit_yili << " " << ogr[n].eposta << " " << ogr[n].telno << endl;
+
+					}
+				}
+				dosya.close();
+				break;
+
+			default:
+				cout << "Yanlýs bilgi girisi" << endl;
+				break;
+			}
+		}
+		cout << ogr[t].getonumara() << " " << ogr[t].ad << " " << ogr[t].soyad << " " << ogr[t].bolum << " " << ogr[t].kayit_yili << " " << ogr[t].eposta << " " << ogr[t].telno << " " << endl;
+
+	}
+}
+
+
+
+void RandevuSistemi::akademisyenleri_atama()
+{
+	//cout << "q:" << q << endl;
+	dosya3.open("akademisyen.txt");
+	while (!dosya3.eof()) {
+		int a;
+		dosya3 >> a;
+		//cout << "a:" << a << endl;
+		akad[q].setsicilno(a);
+		//cout << akad[q].getsicilno();
+		dosya3 >> akad[q].ad;
+		dosya3 >> akad[q].soyad;
+		dosya3 >> akad[q].anadali;
+		dosya3 >> akad[q].eposta;
+		dosya3 >> akad[q].telno;
+		dosya3 >> akad[q].unvan;
+		//cout << akad[q].getsicilno() << " " << akad[q].ad << " " << akad[q].soyad << " " << akad[q].anadali << " " << akad[q].eposta << " " << akad[q].telno << " " << akad[q].unvan << endl;
+		q++;
+	}
+	dosya3.close();
+}
+
+void RandevuSistemi::akademisyen_ekle()
+{
+	dosya3.open("akademisyen.txt", ios::app | ios::in);
+	string ad, soyad, eposta, unvan,anadali;
+	int sicilno;
+	long long int telno;
+	cout << endl << "akademisyenin sicil numarasini giriniz:";
+	cin >> sicilno;
+	cout << "akademisyenin adini giriniz:";
+	cin >> ad;
+	cout << endl << "akademisyenin soyadini giriniz:";
+	cin >> soyad;
+	cout << endl << "akademisyenin anabilim dalini giriniz:";
+	cin >> anadali;
+	cout << endl << "akdemsiyenin e-postasini giriniz:";
+	cin >> eposta;
+	cout << endl << "akademisyenin telefon numarasini giriniz:";
+	cin >> telno;
+	cout << endl << "akademisyenin unvanini giriniz:";
+	cin >> unvan;
+	dosya3 << sicilno << " " << ad << " " << soyad << " " << anadali << " " << eposta << " " << telno << " " << unvan<<endl;
+	dosya3.close();
+}
+
+void RandevuSistemi::akademisyenleri_listele()
+{
+	akademisyenleri_atama();
+	//cout << "i:" << i << endl;
+	for (int j = 0; j < (q-1); j++)
+	{
+		cout << akad[j].getsicilno() << " " << akad[j].ad << " " << akad[j].soyad << " " << akad[j].anadali << " " << akad[j].eposta << " " << akad[j].telno << " " << akad[j].unvan << endl;
+
+	}
+	
+}
+
+void RandevuSistemi::akademisyen_sil()
+{
+	akademisyenleri_atama();
+	
+	int sno1;
+	cout << "silinecek akademisyenin sicil numarasini giriniz:";
+	cin >> sno1;
+	cout << "q:" << q << endl;
+	string geciciad, gecicisad, gecicianabildali, geciciunvan,gecicieposta;
+	int gecicisicilno;
+	long long int gecicitelno;
+	dosya4.open("agecici.txt", ios::out);
+	int tut = 0;
+	int j = 0;
+	for (j; j < (q - 1); j++) {
+
+		if (sno1 != akad[j].getsicilno()) {
+
+			dosya4 << akad[j].getsicilno() << " " << akad[j].ad << " " << akad[j].soyad << " " << akad[j].anadali << " " << akad[j].eposta << " " << akad[j].telno << " " << akad[j].unvan << endl;
+
+			
+		}
+
+		if (sno1 == akad[j].getsicilno()) {
+			cout << "kayit bulundu"<<endl;
+			cout << akad[j].getsicilno() <<endl;
+			tut = 1;
+		}
+	}
+	dosya4.close();
+	if (tut == 0) {
+		cout << "Girilen sicil numarasina ait akademisyen bulunamadi" << endl;
+	}
+	else
+	{
+		dosya3.open("akademisyen.txt", ios::out);
+		dosya4.open("agecici.txt", ios::app | ios::in);
+		int r = 0;
+		while (!dosya4.eof())
+		{
+			
+			cout << "r:" <<	 r << endl;
+			dosya4 >> gecicisicilno;
+			dosya4 >> geciciad;
+			dosya4 >> gecicisad;
+			dosya4 >> gecicianabildali;
+			dosya4 >> gecicieposta;
+			dosya4 >> gecicitelno;
+			dosya4 >> geciciunvan;
+			cout << gecicisicilno << " " << geciciad << " " << gecicisad << " " << gecicianabildali << " " << gecicieposta << " " << gecicitelno << " " << geciciunvan << endl;
+			r++;
+			if (r < j) {
+				dosya3 << gecicisicilno << " " << geciciad << " " << gecicisad << " " << gecicianabildali << " " << gecicieposta << " " << gecicitelno << " " << geciciunvan << endl;
+
+			}
+		}
+		dosya3.close();
+		dosya4.close();
+		cout << "Akademisyen Silindi" << endl;
+		
+	}
+	
+}
+
+void RandevuSistemi::akademisyen_guncelle()
+{
+	akademisyenleri_atama();
+	cout << "guncellemek istediðiniz akademisyenin sicil numarasini giriniz:";
+	int gecicisno;
+	cin >> gecicisno;
+	cout << "q:" << q << endl;
+	int t = 0;
+	for (t; t < (q - 1); t++) {
+
+		if (gecicisno == akad[t].getsicilno()) {
+
+			string gad, gsad, ganabildali, gunvan, geposta;
+			long long int gtelno;
+			cout << "Kayit Bulundu" << endl;
+			cout << "Duzenlemek istediginiz bilgiyi seciniz:" << endl;
+			cout << "1-Adi" << endl;
+			cout << "2-Soyadi" << endl;
+			cout << "3-Anabilim Dali" << endl;
+			cout << "4-E-postasi" << endl;
+			cout << "5-Telefon numarasi" << endl;
+			cout << "6-Unvani" << endl;
+			int n;
+			cin >> n;
+			switch (n)
+			{
+			case 1:
+				cout << "Akademisyenin yeni adini giriniz:";
+				cin >> gad;
+				akad[t].ad = gad;
+				dosya3.open("akademisyen.txt");
+				for (int n = 0; n < (q - 1); n++) {
+					if (n == t) {
+						dosya3 << akad[n].getsicilno() << " " << gad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+					else
+					{
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+				}
+				dosya3.close();
+				break;
+			case 2:
+				cout << "Akademisyenin yeni soyadini giriniz:";
+				cin >> gsad;
+				akad[t].soyad = gsad;
+				dosya3.open("akademisyen.txt");
+				for (int n = 0; n < (q - 1); n++) {
+					if (n == t) {
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << gsad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+					else
+					{
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+				}
+				dosya3.close();
+				break;
+			case 3:
+				cout << "Akademisyenin yeni anabilim dalini giriniz:";
+				cin >> ganabildali;
+				akad[t].anadali = ganabildali;
+				dosya3.open("akademisyen.txt");
+				for (int n = 0; n < (q - 1); n++) {
+					if (n == t) {
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << ganabildali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+					else
+					{
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+				}
+				dosya3.close();
+				break;
+			case 4:
+				cout << "Akademisyenin yeni e-postasini giriniz:";
+				cin >> geposta;
+				akad[t].eposta = geposta;
+				dosya3.open("akademisyen.txt");
+				for (int n = 0; n < (q - 1); n++) {
+					if (n == t) {
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << geposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+					else
+					{
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+				}
+				dosya3.close();
+				break;
+			case 5:
+				cout << "Akademisyenin yeni telefon numarasini giriniz:";
+				cin >> gtelno;
+				akad[t].telno = gtelno;
+				dosya3.open("akademisyen.txt");
+				for (int n = 0; n < (q - 1); n++) {
+					if (n == t) {
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << gtelno<< " " << akad[n].unvan << endl;
+
+					}
+					else
+					{
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+				}
+				dosya3.close();
+				break;
+			case 6:
+				cout << "Akademisyenin yeni unvanini giriniz:";
+				cin >> gunvan;
+				akad[t].unvan = gunvan;
+				dosya3.open("akademisyen.txt");
+				for (int n = 0; n < (q - 1); n++) {
+					if (n == t) {
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " <<gunvan << endl;
+
+					}
+					else
+					{
+						dosya3 << akad[n].getsicilno() << " " << akad[n].ad << " " << akad[n].soyad << " " << akad[n].anadali << " " << akad[n].eposta << " " << akad[n].telno << " " << akad[n].unvan << endl;
+
+					}
+				}
+				dosya3.close();
+				break;
+
+			default:
+				cout << "Yanlýs bilgi girisi" << endl;
+				break;
+			}
+
+		}
+	}
+}
+
+void RandevuSistemi::ogrenci_ran_atama() {
+	
+	ogrencileri_atama();
+	//cout << i;
+	for (int y = 0; y < i; y++) {
+
+		for (int t = 0; t < 20; t++) {
+			ogr[y].o_ran[t].ran_tarihi = "*";
+		}
+	}
+	/*for (int y = 0; y < i; y++) {
+
+		for (int t = 0; t < 20; t++) {
+			cout << ogr[y].o_ran[t].ran_tarihi;
+		}
+		cout << endl;
+	}*/
+}
+
+void RandevuSistemi::akademisyen_ran_atama()
+{
+	akademisyenleri_atama();
+	for (int y = 0; y < (q); y++) {
+
+		for (int t = 0; t < 20; t++) {
+			akad[y].a_ran[t].ran_tarihi = "*";
+		}
+	}
+	/*for (int y = 0; y < (q); y++) {
+
+		for (int t = 0; t < 20; t++) {
+			cout << akad[y].a_ran[t].ran_tarihi;
+		}
+		cout << endl;
+	}*/
+}
+
+
+void RandevuSistemi::randevulari_atama()
+{
+	akademisyenleri_atama();
+	ogrenci_ran_atama();
+	dosya5.open("randevu.txt");
+	int gecici_og_no, gecici_aka_sic_no;
+	string gecici_ran_tarihi, gecici_ran_bas_sa, gecici_ran_bit_sa;
+	int a = 0;
+	while (!dosya5.eof()) {
+		a++;
+		dosya5 >> gecici_og_no;
+		dosya5 >> gecici_aka_sic_no;
+		dosya5 >> gecici_ran_tarihi;
+		dosya5 >> gecici_ran_bas_sa;
+		dosya5 >> gecici_ran_bit_sa;
+		//cout << gecici_og_no << " " << gecici_aka_sic_no << " " << gecici_ran_tarihi << " " << gecici_ran_bas_sa << " " << gecici_ran_bit_sa << endl;
+	}
+	dosya5.close();
+	//cout << "a:" << a << endl;
+	dosya5.open("randevu.txt");
+	ogrencileri_atama();
+	//cout << "i:" << i << endl;
+	int k = 0;
+	for (int t = 0; t < (a - 1); t++) {
+		dosya5 >> gecici_og_no;
+		dosya5 >> gecici_aka_sic_no;
+		dosya5 >> gecici_ran_tarihi;
+		dosya5 >> gecici_ran_bas_sa;
+		dosya5 >> gecici_ran_bit_sa;
+		//cout << "gecici o no: " << gecici_og_no << endl;
+		for (int y = 0; y < (i-9); y++) {
+			
+			if (gecici_og_no == ogr[y].getonumara()) {
+				
+				//cout << ogr[y].ad<<endl;
+				for ( k ; k < 20; k++) {
+					if (ogr[y].o_ran[k].ran_tarihi == "*") {
+						
+						//cout << "q: " << q << endl;
+						for (int i = 0; i < (q - 1); i++) {
+
+							if (gecici_aka_sic_no == akad[i].getsicilno()) {
+								//cout <<"akad adi: "<< akad[i].ad << endl;
+								ogr[y].o_ran[k].ran_sahibi = akad[i].unvan+" "+akad[i].ad + " " + akad[i].soyad;
+							}
+						}
+
+						ogr[y].o_ran[k].ran_tarihi = gecici_ran_tarihi;
+						int bas_sa = atoi(gecici_ran_bas_sa.substr(0, 2).c_str());
+						int bas_da = atoi(gecici_ran_bas_sa.substr(3, 2).c_str());
+						int bit_sa = atoi(gecici_ran_bit_sa.substr(0, 2).c_str());
+						int bit_da = atoi(gecici_ran_bit_sa.substr(3, 2).c_str());
+						ogr[y].o_ran[k].ran_bas_saati = bas_sa;
+						ogr[y].o_ran[k].ran_bas_dak = bas_da;
+						ogr[y].o_ran[k].ran_bit_saati = bit_sa;
+						ogr[y].o_ran[k].ran_bit_dak = bit_da;
+						
+						k = 0;
+						break;
+						
+
+					}
+				}
+			}
+		}
+	}
+	dosya5.close();
+
+	dosya5.open("randevu.txt");
+	akademisyen_ran_atama();
+	int gecici_og_no2, gecici_aka_sic_no2;
+	string gecici_ran_tarihi2, gecici_ran_bas_sa2, gecici_ran_bit_sa2;
+	int f = 0;
+	while (!dosya5.eof())
+	{
+		f++;
+		dosya5 >> gecici_og_no2;
+		dosya5 >> gecici_aka_sic_no2;
+		dosya5 >> gecici_ran_tarihi2;
+		dosya5 >> gecici_ran_bas_sa2;
+		dosya5 >> gecici_ran_bit_sa2;
+		//cout << gecici_og_no2 << " " << gecici_aka_sic_no2 << " " << gecici_ran_tarihi2 << " " << gecici_ran_bas_sa2 << " " << gecici_ran_bit_sa2 << endl;
+
+	}
+	dosya5.close();
+	//cout << "f:" << f << endl;
+	dosya5.open("randevu.txt");
+	akademisyenleri_atama();
+	cout << "q:" << q << endl;
+	int v = 0;
+	for (int t = 0; t < (f - 1); t++) {
+		dosya5 >> gecici_og_no2;
+		dosya5 >> gecici_aka_sic_no2;
+		dosya5 >> gecici_ran_tarihi2;
+		dosya5 >> gecici_ran_bas_sa2;
+		dosya5 >> gecici_ran_bit_sa2;
+		/*cout << "gecici akad sicil no: " << gecici_aka_sic_no2 << endl;
+		cout << "gecici akad randevu tarihi: " << gecici_ran_tarihi2 << endl;
+		cout << "gecici akad baslangic saati: " << gecici_ran_bas_sa2 << endl;*/
+		for (int y = 0; y < (q - 19); y++) {
+
+			if (gecici_aka_sic_no2 == akad[y].getsicilno()) {
+
+				//cout << akad[y].ad << endl;
+
+				for (v; v < 20; v++) {
+
+					if (akad[y].a_ran[v].ran_tarihi == "*") {
+
+						//cout << "i:" << i << endl;
+
+						for (int t = 0; t < (i - 9); t++) {
+							if (gecici_og_no2 == ogr[t].getonumara()) {
+								akad[y].a_ran[v].ran_sahibi = ogr[t].ad + " " + ogr[t].soyad;
+							}
+						}
+
+						akad[y].a_ran[v].ran_tarihi = gecici_ran_tarihi2;
+						int ran_bas_sa = atoi(gecici_ran_bas_sa2.substr(0, 2).c_str());
+						int ran_bas_da = atoi(gecici_ran_bas_sa2.substr(3, 2).c_str());
+						int ran_bit_sa = atoi(gecici_ran_bit_sa2.substr(0, 2).c_str());
+						int ran_bit_da = atoi(gecici_ran_bit_sa2.substr(3, 2).c_str());
+						akad[y].a_ran[v].ran_bas_saati = ran_bas_sa;
+						akad[y].a_ran[v].ran_bas_dak = ran_bas_da;
+						akad[y].a_ran[v].ran_bit_saati = ran_bit_sa;
+						akad[y].a_ran[v].ran_bit_dak = ran_bit_da;
+						//cout << "buraya iyi bak: " << akad[y].a_ran[v].ran_bas_saati << endl;
+
+						v = 0;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	dosya5.close();
+}
+
+void RandevuSistemi::ogrenci_ran_list()
+{
+	randevulari_atama();
+	for (int t = 0; t < (i - 9); t++) {
+		//cout << "i:" << i << endl;
+		cout <<ogr[t].getonumara()<<" "<< ogr[t].ad<<" "<<ogr[t].soyad << ":" << endl;
+		for (int y = 0; y < 20; y++) {
+			if (ogr[t].o_ran[y].ran_tarihi != "*") {
+				cout <<ogr[t].o_ran[y].ran_sahibi<<" "<< ogr[t].o_ran[y].ran_tarihi << " " << ogr[t].o_ran[y].ran_bas_saati << "." << ogr[t].o_ran[y].ran_bas_dak << " " << ogr[t].o_ran[y].ran_bit_saati << "." << ogr[t].o_ran[y].ran_bit_dak << endl;
+			}
+		}
+		cout << endl << endl;
+	}
+}
+
+void RandevuSistemi::akad_ran_list()
+{
+	randevulari_atama();
+	//cout << "q: " << q << endl;
+	for (int t = 0; t < (q - 19); t++) {
+		cout <<akad[t].unvan<<" "<< akad[t].ad << ": " << endl;
+		cout << "randevulari;" << endl;
+		for (int y = 0; y < 20; y++) {
+			if (akad[t].a_ran[y].ran_tarihi != "*") {
+				cout <<akad[y].a_ran[y].ran_sahibi<<" "<< akad[t].a_ran[y].ran_tarihi << " " << akad[t].a_ran[y].ran_bas_saati << "." << akad[t].a_ran[y].ran_bas_dak << " " << akad[t].a_ran[y].ran_bit_saati << "." << akad[t].a_ran[y].ran_bit_dak << endl;
+
+			}
+		}
+		cout << endl << endl;
+	}
+
+}
+
+void RandevuSistemi::randevu_al() 
+{
+	ogrencileri_atama();
+	akademisyenleri_atama();
+	cout << "ogrenci numaranizi giriniz:";
+	int geciciono;
+	cin >> geciciono;
+	cout << "i:" << i<< endl;
+	cout << "q:" << q<< endl;
+	for (int y = 0; y < (i - 1); y++) {
+		
+		if (geciciono == ogr[y].getonumara()) {
+			cout << "ogrenci bulundu"<<endl;
+			cout << "Uyari: Randevular arasi saat farki yarim saattir!" << endl;
+			for (int t = 0; t < (q - 1); t++) {
+				cout <<t+1<<"-)"<< akad[t].getsicilno() << " " << akad[t].ad << " " << akad[t].soyad << " " << akad[t].anadali << " " << akad[t].eposta << " " << akad[t].telno << " " << akad[t].unvan << endl;
+			}
+			cout << "Lutfen randevu alacaginiz akademisyenin sirasini yaziniz:";
+			int n;
+			cin >> n;
+			cout<<"randevu icin sectiginiz akademisyen;"<<endl<< akad[n-1].getsicilno() << " " << akad[n-1].ad << " " << akad[n-1].soyad << " " << akad[n-1].anadali << " " << akad[n-1].eposta << " " << akad[n-1].telno << " " << akad[n-1].unvan << endl;
+			//akad[n - 1].print_randevu();
+			string gecici_ran_tarihi;
+			int gecici_ran_bas_saati,gecici_ran_bas_dak,gecici_ran_bit_saati,gecici_ran_bit_dak;
+			cout << "lutfen randevu tarihini gun ay ve yilin arasina nokta koyarak griiniz giriniz:";
+			cin >> gecici_ran_tarihi;
+			akad[n - 1].ran_tarihi = gecici_ran_tarihi;
+			//akad[n - 1].print_randevu();
+			cout << "NOT: randevu baslangic dakikasini ya 00 yada 30 oalrak giriniz:"<<endl;
+			cout << "lutfen randevu baslangic saatini giriniz:";
+			cin >> gecici_ran_bas_saati;
+			akad[n - 1].ran_bas_saati = gecici_ran_bas_saati;
+			//akad[n - 1].print_randevu();
+			cout << "lutfen randevu baslangic dakikasini giriniz:";
+			cin >> gecici_ran_bas_dak;
+			akad[n - 1].ran_bas_dak = gecici_ran_bas_dak;
+			if (gecici_ran_bas_dak == 00) {
+				gecici_ran_bit_dak = 30;
+				gecici_ran_bit_saati = gecici_ran_bas_saati;
+				akad[n - 1].ran_bit_dak = gecici_ran_bit_dak;
+				akad[n - 1].ran_bit_saati = gecici_ran_bit_saati;
+				dosya5.open("randevu.txt", ios::app);
+				dosya5 << ogr[y].getonumara() << " " << akad[n - 1].getsicilno() << " " << akad[n - 1].ran_tarihi << " " << akad[n - 1].ran_bas_saati << "." << akad[n - 1].ran_bas_dak << " " << akad[n - 1].ran_bit_saati << "." << akad[n - 1].ran_bit_dak << endl;
+				dosya5.close();
+			}
+			if (gecici_ran_bas_dak == 30) {
+				gecici_ran_bit_dak = 00;
+				gecici_ran_bit_saati = gecici_ran_bas_saati + 1;
+				akad[n - 1].ran_bit_dak = gecici_ran_bit_dak;
+				akad[n - 1].ran_bit_saati = gecici_ran_bit_saati;
+				dosya5.open("randevu.txt", ios::app);
+				dosya5 << ogr[y].getonumara() << " " << akad[n - 1].getsicilno() << " " << akad[n - 1].ran_tarihi << " " << akad[n - 1].ran_bas_saati << "." << akad[n - 1].ran_bas_dak << " " << akad[n - 1].ran_bit_saati << "." << akad[n - 1].ran_bit_dak << endl;
+				dosya5.close();
+
+			}
+			if (gecici_ran_bas_dak != 00 && gecici_ran_bas_dak != 30) {
+				cout << "Hatali randevu baslangic dakikasi secimi"<<endl;
+				cout << "Lutfen Randevu Dakikasini '00' veya '30' olarak griiniz "<<endl;
+				break;
+			}
+
+			cout << "Randevu bilgileriniz: "<<endl;
+			akad[n - 1].print_ran();
+
+
+			
+		}
+	}
+}
+
+
+void RandevuSistemi::randevu_iptal_et()
+{
+	randevulari_atama();
+	int ogr_no;
+	int f = 0;
+	int gecici_og_no, gecici_aka_sic_no;
+	string gecici_ran_tarihi, gecici_ran_bas_sa, gecici_ran_bit_sa;
+	cout << "lutfen ogrenci numarinizi giriniz:";
+	cin >> ogr_no;
+	dosya5.open("randevu.txt");
+	while (!dosya5.eof())
+	{
+		f++;
+		dosya5 >> gecici_og_no;
+		dosya5 >> gecici_aka_sic_no;
+		dosya5 >> gecici_ran_tarihi;
+		dosya5 >> gecici_ran_bas_sa;
+		dosya5 >> gecici_ran_bit_sa;
+		//cout << gecici_og_no << " " << gecici_aka_sic_no << " " << gecici_ran_tarihi << " " << gecici_ran_bas_sa << " " << gecici_ran_bit_sa << endl;
+	
+	}
+	dosya5.close();
+	cout << "f:" << f << endl;
+	dosya5.open("randevu.txt");
+	cout << "i:" << i << endl;
+	int temp = 0;
+	int temp2;
+	cout << "ogr no: " << ogr_no << endl;
+	for (int t = 0; t < (f - 1); t++) {
+		dosya5 >> gecici_og_no;
+		dosya5 >> gecici_aka_sic_no;
+		dosya5 >> gecici_ran_tarihi;
+		dosya5 >> gecici_ran_bas_sa;
+		dosya5 >> gecici_ran_bit_sa;
+		//cout << gecici_og_no << " " << gecici_aka_sic_no << " " << gecici_ran_tarihi << " " << gecici_ran_bas_sa << " " << gecici_ran_bit_sa << endl;
+			
+		if (ogr_no == gecici_og_no) {
+
+			for (int y = 0; y < (i - 9); y++) {
+				if (ogr_no == ogr[y].getonumara()) {
+
+					cout << "ogr bulundu: " << ogr[y].ad << endl;
+					if (y == 0) {
+						temp = y+1;
+						temp2 = y;
+					}
+					else
+					{
+						temp = y;
+						temp2 = y;
+					}
+					
+					//cout << "temp:" << temp << endl;
+					
+					cout << "q: " << q << endl;
+					//cout << "akad sicil no: " << gecici_aka_sic_no << endl;
+
+					for (int t = 0; t < (q - 10); t++) {
+						if (gecici_aka_sic_no == akad[t].getsicilno()) {
+							cout << "akad: " << akad[t].ad << endl;
+						}
+					}
+						 
+					break;
+				}
+				
+			}
+			
+			
+		}
+		/*if (ogr_no != gecici_og_no) {
+			cout << "ogrenci bulunamadi" << endl;
+			break;
+		}*/
+
+		
+	}
+	if (temp != 0) {
+		cout << "girilen ogrenci numarsina ait ogrencinin randevulari:" << endl;
+		for (int y = 0; y < 20; y++) {
+			//cout << "y:" << y << endl;
+			if (ogr[temp2].o_ran[y].ran_tarihi != "*") {
+				//cout << "y:" << y << endl;
+				cout << ogr[temp2].o_ran[y].ran_tarihi << " " << ogr[temp2].o_ran[y].ran_bas_saati << "." << ogr[temp2].o_ran[y].ran_bas_dak << " " << ogr[temp2].o_ran[y].ran_bit_saati << "." << ogr[temp2].o_ran[y].ran_bit_dak << endl;
+			}
+
+		}
+	}
+}
+
+
+
+
+
+MAÝN.CPP
+
+
+
+
+#include "pch.h"
+#include <iostream>
+#include <string>
+#include "Ortak.h"
+#include "Ogrenci.h"
+#include "Akademisyen.h"
+#include"Randevu.h"
+#include "RandevuSistemi.h"
+#include <fstream>
+
+using namespace std;
+
+int main()
+{
+   cout << "Hello World!\n"; 
+   
+   Ogrenci std1;
+   Akademisyen akad1;
+   
+   RandevuSistemi rs;
+   
+  //rs.ogrenci_ekle();
+
+  //rs.ogrencileri_atama();
+
+ //rs.ogrencileri_listele();
+
+  //rs.ogrenci_sil();
+  // rs.ogrenci_guncelle();
+  //rs.akademisyen_ekle();
+  //rs.akademisyenleri_atama();
+   //rs.akademisyenleri_listele();
+   //rs.akademisyen_sil();
+  // rs.akademisyen_guncelle();
+   //rs.randevu_al();
+	//rs.randevulari_atama();
+   //rs.ogrenci_ran_atama();
+   //rs.akademisyen_ran_atama();
+  rs.ogrenci_ran_list();
+   //rs.akad_ran_list();
+   //rs.randevu_iptal_et();
+}
+
+
+
+
+
+
+
+
