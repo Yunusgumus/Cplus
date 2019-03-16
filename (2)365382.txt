@@ -1,0 +1,1156 @@
+<----------- Coord.h -------------->
+
+#include "pch.h"
+#include <iostream>
+#pragma once
+
+using namespace std;
+
+class Coord {
+	public:
+		Coord();
+		Coord(double x, double y);
+		void setX(double x);
+		void setY(double y);
+		double getX();
+		double getY();
+
+
+
+	private:
+		double x;
+		double y;
+
+};
+
+<----------- Coord.cpp -------------->
+
+#include "pch.h"
+#include "Coord.h"
+#include <iostream>
+
+using namespace std;
+
+Coord::Coord()
+	:x(0),y(0)
+{
+
+}
+
+Coord::Coord(double x, double y) :x(x), y(y) {
+
+	//cout << "x:" << x << " y:" << y << endl;
+
+}
+void Coord::setX(double x) {
+	this->x = x;
+}
+double Coord::getX() {
+	return x;
+}
+void Coord::setY(double y) {
+	this->y = y;
+
+}
+double Coord::getY() {
+	return y;	
+}
+
+<------------- Box.h ------------>
+
+#include "pch.h"
+#include "Coord.h"
+#include <iostream>
+#pragma once
+
+using namespace std;
+
+class Box
+{
+public:
+	Box();
+	Box(double density, double height, double width, Coord cord);
+	//Box(double density, double height, double width, double x,double y);
+	//Box(double density, double height, double width);
+	void setD(double density);
+	void setH(double height);
+	void setW(double width);
+	void setC(double x,double y);
+	//void setBoxX(double x);
+	//void setBoxY(double y);
+	//double getBoxX();
+	//double getBoxY();
+	double getCX();
+	double getCY();
+	double getD();
+	double getH();
+	double getW();
+
+private:
+	double density;
+	double height;
+	double width;
+	//double x;
+	//double y;
+	Coord cord;
+	
+
+};
+
+
+<---------------- Box.cpp -------------->
+
+#include "pch.h"
+#include "Box.h"
+#include <iostream>
+
+using namespace std;
+
+Box::Box()
+	:cord(cord),density(0),height(0),width(0)
+{
+
+}
+
+
+Box::Box(double d, double h, double w, Coord cord)
+ :density(d),height(h),width(w),cord(cord)
+{
+	cout << "kutunun yogunlugu:" << density << endl;
+	cout << "kutunun yuksekligi:" << height << endl;
+	cout << "kutunun genisligi:" << width << endl;
+	cout << "kutunun x koordinati:" << cord.getX() << endl << "kutunun y koordianti:" << cord.getY() << endl;
+}
+
+//Box::Box(double density, double height, double width, double x, double y)
+//	:density(density),height(height),width(width),x(x),y(y)//,cord(cord)
+//{
+//	cout << "kutunun yogunlugu:" << density << endl;
+//	cout << "kutunun yuksekligi:" << height << endl;
+//	cout << "kutunun genisligi:" << width << endl;
+//	cout << "kutunun x koordinati:" << x << endl << "kutunun y koordianti:" << y << endl;
+//}
+//
+//Box::Box(double density, double height, double width)
+//	:density(density), height(height), width(width)
+//{
+//	cout << "kutunun yogunlugu:" << density << endl;
+//	cout << "kutunun yuksekligi:" << height << endl;
+//	cout << "kutunun genisligi:" << width << endl;
+//
+//}
+
+
+void Box::setD(double density) {
+	this->density = density;
+}
+double Box::getD() {
+	return density;
+}
+void Box::setH(double height) {
+	this->height = height;
+}
+double Box::getH() {
+	return height;
+}
+void Box::setW(double width) {
+	this->width = width;
+}
+double Box::getW() {
+	return width;
+}
+void Box::setC(double x,double y) {
+	
+	cord.setX(x);
+	cord.setY(y);
+}
+double Box::getCX() {
+	return cord.getX();
+	
+}
+double Box::getCY() {
+	return cord.getY();
+}
+//void Box::setBoxX(double x) {
+//	this->x = x;
+//}
+//double Box::getBoxX() {
+//	return x;
+//}
+//void Box::setBoxY(double y) {
+//	this->y = y;
+//}
+//double Box::getBoxY() {
+//	return y;
+//}
+
+
+<-------------------- Space.h ---------------->
+
+#include "pch.h"
+#include "Box.h"
+#include "Coord.h"
+#include <iostream>
+#pragma once
+
+using namespace std;
+
+class Space
+{
+public:
+	Space();
+	Space(Box box, Coord cord);
+	Space(Coord cord);
+	//void setX(double x);
+	//void setY(double y);
+	//double getX();
+	//double getY();
+	void fillRandomBox(int a, int b,Coord cord);
+	//void printBoxCoordiantes();
+
+private:
+	Coord cord;
+	Box box;
+	//double x;
+	//double y;
+	//
+	
+
+};
+
+<-------------- Space.cpp --------------->
+
+#include"pch.h"
+#include "Space.h"
+#include"Box.h"
+#include "Coord.h"
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+
+using namespace std;
+
+
+Space::Space()
+	:cord(0,0),box(0,0,0,cord)
+{
+
+}
+
+Space::Space(Box box, Coord cord):box(box),cord(cord)
+{
+	cout << "uzayin x ekseni:" << cord.getX() << endl;
+	cout << "uzayin y ekseni:" << cord.getY() << endl;
+}
+
+Space::Space(Coord cord)
+	:cord(cord),box(box)
+{
+	cout <<"Uzayin koordinatlari:"<< "x:" << cord.getX() <<" y:"<<cord.getY()<< endl;
+}
+
+//void Space::setX(double x)
+//{
+//	this->x = x;
+//}
+//
+//double Space::getX()
+//{
+//	return x;
+//}
+//
+//void Space::setY(double y)
+//{
+//	this->y = y;
+//}
+//
+//double Space::getY()
+//{
+//	return y;
+//}
+
+void Space::fillRandomBox(int a, int b,Coord cord)  {
+	cout << endl << "olusturulacak kutu sayisi:";
+	int n;
+	cin >> n;
+	if (b == 1) {
+		Box kutu[80];
+		double uzayAlani = cord.getX() * cord.getY();
+
+		
+		srand(time(0));
+		for (int i = 0; i < n; i++)		//olusturulacak kutularin boyutlari belirleniyor
+		{
+			double r1 = rand() % (a)+1;
+			double r2 = rand() % (a)+1;
+			kutu[i].setH(r1);
+			kutu[i].setW(r2);
+		}
+		//for (int i = 0; i < n; i++)		//olusturulan kutularin boyutlari ekrana bastiriliyor
+		//{
+		//	cout << i+1 << ".kutunun boyutlari:" << " w:" << kutu[i].getw() << " h:" << kutu[i].getH() << endl;
+		//}
+		double top = 0;
+		for (int i = 0; i < n; i++)   // olusturulan kutularin toplam agirligi hesaplaniyor
+		{
+			top += kutu[i].getH()*kutu[i].getW();
+
+		}
+
+		//cout << "kutularin toplam agirligi:" << top << endl;
+
+		if (cord.getX() > a && cord.getY() > a) {
+
+			if (top <= uzayAlani) {
+
+				ofstream dosya;
+				dosya.open("koordinatlar.txt", ios::out);
+
+				//cout << "uzaya kutulari yerlestirebilirsiniz" << endl;
+				//for (int i = 0; i < n; i++) {	//olusturulan kutularin boyutlari ekrana bastiriliyor
+				//	cout << i+1 << ".kutunun boyutlari:" << " w:" << kutu[i].getW() << " h:" << kutu[i].getH() << endl;
+				//}
+
+				double s1x = 0, s2x = 0, s3x = 0, s4x = 0, s5x = 0, s6x = 0, s7x = 0, s8x = 0, s9x = 0, s10x = 0;
+				double s1y = 0, s2y = 0, s3y = 0, s4y = 0, s5y = 0, s6y = 0, s7y = 0, s8y = 0, s9y = 0, s10y = 0;
+				double basX = 0;
+				double basY = 0;
+				double h = 0;
+				double w = 0;
+				double tut = 0;
+				int i = 0;
+				double centerOfMassX = 0;
+				double centerOfMassY = 0;
+
+				for (i = 0; i < n; i++)		//olusturulan kutulari 1.satirinin  x ekseni dolana kadar yerleþtiriyor
+				{
+
+					h = kutu[i].getH();
+					w += kutu[i].getW();
+					if (w > cord.getX()) {
+						tut = w;
+						//cout << "yunus" << endl;
+						//cout << "i:" << i << endl;
+
+						break;
+
+					}
+
+					else {
+
+						kutu[i].setC(w, h);
+						cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+						dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+						s1x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+						s1y += (((kutu[i].getCY() - basY) / 2) + basY)*(kutu[i].getH()*kutu[i].getW());
+						basX = w;
+					}
+
+				}
+
+				//cout << " s1x:" << s1x << endl;
+				//cout << " s1y:" << s1y << endl;
+				//cout << "i:" << i << endl;
+				//cout << "w:" << w << endl;
+				double topYerKutu = i;			//ilk satirda yerleþtirilen kutularin adedini tutuyor
+				h = a;
+				w = 0;
+				basX = w;
+				//cout << "basX:" << basX<<endl;
+				//cout<<"sadasdasdds    h:" << h << endl;
+				basY = h;
+				if (topYerKutu != n) {
+
+					//cout << "yunus baba" << endl;
+					if (tut != 0) {					//olusturulan kutularin 2. satirinin x ekseni dolana akdar yerleþtiriyor
+
+						for (i; i < n; i++) {
+							h += kutu[i].getH();
+							w += kutu[i].getW();
+							if (w > cord.getX()) {
+
+								//cout << "x ekseni doldu" << endl;
+								break;
+
+							}
+							else
+							{
+								basY = a;
+								kutu[i].setC(w, h);
+								cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+								dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+								s2x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+								s2y += (((kutu[i].getCY() - basY) / 2) + basY)*(kutu[i].getH()*kutu[i].getW());
+								basX = w;
+							}
+							h = a;
+
+						}
+
+					}
+					//cout << " ikinci i:" << i << endl;
+
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi."<<endl;
+				}
+				//cout << " s2x:" << s2x << endl;
+				//cout << " s2y:" << s2y << endl;
+				double topYerKutu2 = i;			// 1. ve 2. satirda yerlestirilen kutularin sayisini tutuyor
+				//cout << "h:" << h << endl;
+				double yEksen;
+				yEksen = 2 * a;
+				//cout << "y ekseni: " << yEksen << endl;
+				w = 0;
+				basX = w;
+				double yEksenTut;
+				yEksenTut = yEksen;
+				if (topYerKutu2 != n) {			//olusturulan kutulari 3. satiri dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinarlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s3x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s3y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 2 * a;
+					}
+
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s3x:" << s3x << endl;
+				//cout << " s3y:" << s3y << endl;
+				//cout << "ucuncu i:" << i << endl;
+				double topYerKutu3 = i;	// 1,2 ve3. satirda yerlestirilen toplam kutu sayisini tutuyor;
+				//cout << "yekseni: " << yEksen << endl;
+				yEksen = 3 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu3 != n) {			//olusturulan kutulari 4. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s4x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s4y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 3 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s4x:" << s4x << endl;
+				//cout << " s4y:" << s4y << endl;
+				double topYerKutu4 = i;
+				yEksen = 4 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu4 != n) {			//olusturulan kutulari 5. satir dolana kadar yerlestiriyor
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s5x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s5y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 4 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s5x:" << s5x << endl;
+				//cout << " s5y:" << s5y << endl;
+				double topYerKutu5 = i;
+				yEksen = 5 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu5 != n) {								//olusturulan kutulari 6. satir dolana kadar yerlestiriyor
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s6x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s6y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 5 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s6x:" << s6x << endl;
+				//cout << " s6y:" << s6y << endl;
+				double topYerKutu6 = i;
+				yEksen = 6 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu6 != n) {								//olusturulan kutulari 7. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s7x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s7y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 6 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s7x:" << s7x << endl;
+				//cout << " s7y:" << s7y << endl;
+				double topYerKutu7 = i;
+				yEksen = 7 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu7 != n) {								//olusturulan kutulari 8. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s8x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s8y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 7 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s8x:" << s8x << endl;
+				//cout << " s8y:" << s8y << endl;
+				double topYerKutu8 = i;
+				yEksen = 8 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu8 != n) {								//olusturulan kutulari 9. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s9x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s9y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 8 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s9x:" << s9x << endl;
+				//cout << " s9y:" << s9y << endl;
+				double topYerKutu9 = i;
+				yEksen = 9 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu9 != n) {								//olusturulan kutulari 10. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s10x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW());
+							s10y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW());
+							basX = w;
+						}
+						yEksen = 9 * a;
+					}
+				
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s10x:" << s10x << endl;
+				//cout << " s10y:" << s10y << endl;
+
+				centerOfMassX = (s1x + s2x + s3x + s4x + s5x + s6x + s7x + s8x + s9x + s10x) / top;
+				centerOfMassY = (s1y + s2y + s3y + s4y + s5y + s6y + s7y + s8y + s9y + s10y) / top;
+
+				cout << "Uzayin agirlik merkezi x:" << centerOfMassX << " y:" << centerOfMassY << endl;
+				dosya << "Uzayin agirlik merkezi x:" << centerOfMassX << " y:" << centerOfMassY << endl;
+				
+			}
+			
+			else {
+				cout << "Olusturdugunuz kutularin toplam alani uzayin alanini asiyor.Lutfen kutularin boyutlarini kuculterek  veya uzayin alanini buyulterek tekrar deneyiniz..." << endl;
+
+			}
+		}
+		else {
+			cout << "uzayin boyutu kutunun boyutundan kucuk olamaz" << endl;
+		}
+	}
+	else							//yogunluk 1 den farkli oldugu zaman heseplamalar yapýlacak
+	{
+		Box kutu[80];
+		double uzayAlani = cord.getX() * cord.getY();
+
+		//cout << "kutu yogunlugu 1 den farkli girilmistir..." << endl;
+		
+		srand(time(0));
+
+		for (int i = 0; i < n; i++)		//olusturulacak kutularin boyutlari belirleniyor
+		{
+			double r1 = rand() % (a)+1;
+			double r2 = rand() % (a)+1;
+			double r3 = rand() % (b)+1;
+			kutu[i].setH(r1);
+			kutu[i].setW(r2);
+			kutu[i].setD(r3);
+		}
+
+		//for (int i = 0; i < n; i++)		//olusturulan kutularin boyutlari ekrana bastiriliyor
+		//{
+		//	cout << i+1 << ".kutunun boyutlari:" << " w:" << kutu[i].getW() << " h:" << kutu[i].getH() <<" yogunlugu:"<<kutu[i].getD()<< endl;
+		//}
+
+		double top = 0;
+		for (int i = 0; i < n; i++)   // olusturulan kutularin toplam agirligi hesaplaniyor
+		{
+			top += kutu[i].getH()*kutu[i].getW()*kutu[i].getD();
+
+		}
+		//cout << "top:" << top << endl;
+
+		if (cord.getX() > a && cord.getY() > a) {
+			if (top <= uzayAlani) {
+
+				ofstream dosya;
+				dosya.open("koordinatlar.txt", ios::out);
+				//cout << "uzaya kutulari yerlestirebilirsiniz" << endl;
+				//for (int i = 0; i < n; i++) {	//olusturulan kutularin boyutlari ekrana bastiriliyor
+				//	cout << i+1 << ".kutunun boyutlari:" << " w:" << kutu[i].getW() << " h:" << kutu[i].getH() << endl;
+				//}
+				double s1x = 0, s2x = 0, s3x = 0, s4x = 0, s5x = 0, s6x = 0, s7x = 0, s8x = 0, s9x = 0, s10x = 0;
+				double s1y = 0, s2y = 0, s3y = 0, s4y = 0, s5y = 0, s6y = 0, s7y = 0, s8y = 0, s9y = 0, s10y = 0;
+				double basX = 0;
+				double basY = 0;
+				double h = 0;
+				double w = 0;
+				double tut = 0;
+				int i = 0;
+				double centerOfMassX = 0;
+				double centerOfMassY = 0;
+
+				for (i = 0; i < n; i++)		//olusturulan kutulari 1.satirinin  x ekseni dolana kadar yerleþtiriyor
+				{
+
+					h = kutu[i].getH();
+					w += kutu[i].getW();
+					if (w > cord.getX()) {
+						tut = w;
+						//cout << "yunus" << endl;
+						//cout << "i:" << i << endl;
+
+						break;
+
+					}
+
+					else {
+
+						kutu[i].setC(w, h);
+						cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+						dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+						s1x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+						s1y += (((kutu[i].getCY() - basY) / 2) + basY)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+						basX = w;
+					}
+
+				}
+
+				//cout << " s1x:" << s1x << endl;
+				//cout << " s1y:" << s1y << endl;
+				//cout << "i:" << i << endl;
+				//cout << "w:" << w << endl;
+				double topYerKutu = i;			//ilk satirda yerleþtirilen kutularin adedini tutuyor
+				h = a;
+				w = 0;
+				basX = w;
+				//cout << "basX:" << basX<<endl;
+				//cout<<"sadasdasdds    h:" << h << endl;
+				basY = h;
+				if (topYerKutu != n) {
+
+					//cout << "yunus baba" << endl;
+					if (tut != 0) {					//olusturulan kutularin 2. satirinin x ekseni dolana akdar yerleþtiriyor
+
+						for (i; i < n; i++) {
+							h += kutu[i].getH();
+							w += kutu[i].getW();
+							if (w > cord.getX()) {
+
+								//cout << "x ekseni doldu" << endl;
+								break;
+
+							}
+							else
+							{
+								basY = a;
+								kutu[i].setC(w, h);
+								cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+								dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << basY << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+								s2x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+								s2y += (((kutu[i].getCY() - basY) / 2) + basY)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+								basX = w;
+							}
+							h = a;
+
+						}
+
+					}
+					//cout << " ikinci i:" << i << endl;
+
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi."<<endl;
+				}
+				//cout << " s2x:" << s2x << endl;
+				//cout << " s2y:" << s2y << endl;
+				double topYerKutu2 = i;			// 1. ve 2. satirda yerlestirilen kutularin sayisini tutuyor
+				//cout << "h:" << h << endl;
+				double yEksen;
+				yEksen = 2 * a;
+				//cout << "y ekseni: " << yEksen << endl;
+				w = 0;
+				basX = w;
+				double yEksenTut;
+				yEksenTut = yEksen;
+				if (topYerKutu2 != n) {			//olusturulan kutulari 3. satiri dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinarlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s3x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s3y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 2 * a;
+					}
+
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s3x:" << s3x << endl;
+				//cout << " s3y:" << s3y << endl;
+				//cout << "ucuncu i:" << i << endl;
+				double topYerKutu3 = i;	// 1,2 ve3. satirda yerlestirilen toplam kutu sayisini tutuyor;
+				//cout << "yekseni: " << yEksen << endl;
+				yEksen = 3 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu3 != n) {			//olusturulan kutulari 4. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s4x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s4y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 3 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s4x:" << s4x << endl;
+				//cout << " s4y:" << s4y << endl;
+				double topYerKutu4 = i;
+				yEksen = 4 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu4 != n) {			//olusturulan kutulari 5. satir dolana kadar yerlestiriyor
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s5x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s5y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 4 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s5x:" << s5x << endl;
+				//cout << " s5y:" << s5y << endl;
+				double topYerKutu5 = i;
+				yEksen = 5 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu5 != n) {								//olusturulan kutulari 6. satir dolana kadar yerlestiriyor
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s6x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s6y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 5 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s6x:" << s6x << endl;
+				//cout << " s6y:" << s6y << endl;
+				double topYerKutu6 = i;
+				yEksen = 6 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu6 != n) {								//olusturulan kutulari 7. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s7x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s7y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 6 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s7x:" << s7x << endl;
+				//cout << " s7y:" << s7y << endl;
+				double topYerKutu7 = i;
+				yEksen = 7 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu7 != n) {								//olusturulan kutulari 8. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s8x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s8y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 7 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s8x:" << s8x << endl;
+				//cout << " s8y:" << s8y << endl;
+				double topYerKutu8 = i;
+				yEksen = 8 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu8 != n) {								//olusturulan kutulari 9. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s9x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s9y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 8 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s9x:" << s9x << endl;
+				//cout << " s9y:" << s9y << endl;
+				double topYerKutu9 = i;
+				yEksen = 9 * a;
+				w = 0;
+				basX = w;
+				yEksenTut = yEksen;
+				if (topYerKutu9 != n) {								//olusturulan kutulari 10. satir dolana kadar yerlestiriyor
+
+					for (i; i < n; i++) {
+						yEksen += kutu[i].getH();
+						w += kutu[i].getW();
+						if (w > cord.getX()) {
+
+							//cout << "x ekseni doldu" << endl;
+							break;
+
+						}
+						else
+						{
+							kutu[i].setC(w, yEksen);
+							cout << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordiantlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							dosya << i + 1 << ".kutunun baslangic koordinatlari x:" << basX << " y:" << yEksenTut << " bitis koordinatlari x:" << kutu[i].getCX() << " y:" << kutu[i].getCY() << endl;
+							s10x += (((kutu[i].getCX() - basX) / 2) + basX)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							s10y += (((kutu[i].getCY() - yEksenTut) / 2) + yEksenTut)*(kutu[i].getH()*kutu[i].getW()*kutu[i].getD());
+							basX = w;
+						}
+						yEksen = 9 * a;
+					}
+				}
+				else
+				{
+					//cout << "butun kutular yerlestirildi" << endl;
+				}
+				//cout << " s10x:" << s10x << endl;
+				//cout << " s10y:" << s10y << endl;
+
+				centerOfMassX = (s1x + s2x + s3x + s4x + s5x + s6x + s7x + s8x + s9x + s10x) / top;
+				centerOfMassY = (s1y + s2y + s3y + s4y + s5y + s6y + s7y + s8y + s9y + s10y) / top;
+
+				cout << "Uzayin agirlik merkezi x:" << centerOfMassX << " y:" << centerOfMassY << endl;
+				dosya << "Uzayin agirlik merkezi x:" << centerOfMassX << " y:" << centerOfMassY << endl;
+			}
+			else {
+				cout << "Olusturdugunuz kutularin toplam alani uzayin alanini asiyor.Lutfen kutularin boyutlarini kuculterek  veya uzayin alanini buyulterek tekrar deneyiniz..." << endl;
+
+			}
+		}
+		else {
+			cout << "uzayin boyutu kutunun boyutundan kucuk olamaz" << endl;
+		}
+	}
+}
+
+<------------------ main.cpp --------------->
+
+
+#include "pch.h"
+#include <iostream>
+#include<string>
+#include "Coord.h"
+#include "Box.h"
+#include "Space.h"
+
+using namespace std;
+
+
+
+int main()
+{	
+	
+	double x;
+	double y;
+	cout << "uzayin x ve y koordinatlarini giriniz:";
+	cin >> x;
+	cin >> y;
+	Coord cord(x, y);
+	Space s(cord);
+	int maxKutuB;
+	int maxKutuY;
+	cout <<endl<< "maksimum kutu boyutunu giriniz:";
+	cin >> maxKutuB;
+	cout << endl << "maksimum kutu yogunlugunu giriniz:";
+	cin >> maxKutuY;
+	s.fillRandomBox(maxKutuB,maxKutuY,cord);
+	
+	
+
+}
+
